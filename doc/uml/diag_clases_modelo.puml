@@ -1,0 +1,87 @@
+@startuml
+class model.Celda {
+- int espacio
+- List<Articulo> lista
++ <<Create>> Celda(int)
++ List<Articulo> getLista()
++ void setLista(List<Articulo>)
++ void meter(Articulo)
++ int getEspacioLibre()
++ int getEspacioOcupado()
++ boolean estaArticulo(Articulo)
++ boolean existeIdArticulo(String)
++ Articulo getArticulo(String)
++ Iterator<Articulo> iterator()
+}
+class model.Articulo {
+- String id
+- ETipoArticulo tipo
+- int espacio
+- LocalDate fechaAdquisicion
+- double precio
++ <<Create>> Articulo()
++ <<Create>> Articulo(String)
++ <<Create>> Articulo(String,ETipoArticulo,int,LocalDate,double)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
++ String getId()
++ void setId(String)
++ ETipoArticulo getTipo()
++ void setTipo(ETipoArticulo)
++ int getEspacio()
++ void setEspacio(int)
++ LocalDate getFechaAdquisicion()
++ void setFechaAdquisicion(LocalDate)
++ double getPrecio()
++ void setPrecio(double)
+}
+class model.Posicion {
+- {static} String letras
+- char fila
+- int columna
++ <<Create>> Posicion()
++ <<Create>> Posicion(char,int)
++ <<Create>> Posicion(int,int)
++ <<Create>> Posicion(String)
++ char getFila()
++ int getFilaNumber()
++ void setFila(char)
++ void setFilaNumber(int)
++ void setFilaColumnaNumbers(int,int)
++ {static} String getLetras()
++ int getColumna()
++ void setColumna(int)
+- int filaToInt(char)
+- char filaToChar(int)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
++ int compareTo(Posicion)
+}
+class model.Armario {
++ {static} int FILAS
++ {static} int COLUMNAS
++ {static} int ESPACIOS_X_CELDA
+- Celda[][] celdas
++ <<Create>> Armario()
++ int getFilas()
++ int getColumnas()
++ Celda getCelda(int,int)
++ int getEspacioLibre(Posicion)
++ void meter(Posicion,Articulo)
++ int getOcupacionCelda(Posicion)
++ List<Articulo> getArticulos(int,int)
++ Posicion buscarPosicionConEspacio(int)
++ Posicion getPosicionArticulo(Articulo)
++ boolean existeIdArticulo(String)
++ Articulo getArticulo(String)
++ Map<ETipoArticulo,List<Articulo>> articulosPorTipo(java.util.Comparator<Articulo>,EOrden)
+}
+
+model.Celda *--> model.Articulo
+model.Armario *--> model.Celda
+model.Armario ..> model.Posicion
+model.Armario ..> model.Articulo
+
+@enduml

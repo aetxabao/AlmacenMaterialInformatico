@@ -1,0 +1,78 @@
+@startuml
+class terminal.io.Entrada {
+}
+class terminal.Main {
+}
+class io.CsvSaver {
++ {static} String FOLDER
++ {static} String PREFIX
++ {static} char SEPARATOR
++ {static} String EXTENSION
++ {static} char SPLITTER
++ {static} char EOL
+}
+class model.Celda {
+- int espacio
+- List<Articulo> lista
+}
+class terminal.menus.MenuPrincipal {
+- GestorAlmacen gestorAlmacen
+}
+class exceptions.ExcepcionAmi {
+- String msg
+}
+class model.Articulo {
+- String id
+- ETipoArticulo tipo
+- int espacio
+- LocalDate fechaAdquisicion
+- double precio
+}
+class model.Posicion {
+- {static} String letras
+- char fila
+- int columna
+}
+class managers.GestorAlmacen {
+- Armario armario
+}
+class io.CsvLoader {
++ {static} String SPLITTER
+- String csvPath
+}
+class Main {
+}
+class terminal.io.Salida {
+}
+class terminal.menus.MenuListados {
+- GestorAlmacen gestorAlmacen
+}
+class model.Armario {
++ {static} int FILAS
++ {static} int COLUMNAS
++ {static} int ESPACIOS_X_CELDA
+- Celda[][] celdas
+}
+
+Main ..> terminal.Main
+terminal.Main ..> terminal.menus.MenuPrincipal
+terminal.menus.MenuPrincipal ..>  terminal.menus.MenuListados
+
+terminal.menus.MenuPrincipal --> managers.GestorAlmacen
+terminal.menus.MenuListados --> managers.GestorAlmacen
+terminal.menus.MenuPrincipal ..> terminal.io.Entrada
+terminal.menus.MenuPrincipal ..> terminal.io.Salida
+terminal.menus.MenuListados ..> terminal.io.Entrada
+terminal.menus.MenuListados ..> terminal.io.Salida
+
+managers.GestorAlmacen --> model.Armario
+managers.GestorAlmacen ..> io.CsvLoader
+managers.GestorAlmacen ..> io.CsvSaver
+io.CsvLoader ..> exceptions.ExcepcionAmi
+
+model.Celda *--> model.Articulo
+model.Armario *--> model.Celda
+model.Armario ..> model.Posicion
+model.Armario ..> model.Articulo
+
+@enduml

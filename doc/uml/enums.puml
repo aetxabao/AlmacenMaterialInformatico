@@ -1,0 +1,42 @@
+@startuml
+enum EMenuListados {
++  M_LI_TERMINAR
++  M_LI_TIPO_PRECIO
++  M_LI_TIPO_FECHA
++  M_LI_IMPORTE_TIPO
++ {static} EMenuListados desdeEntero(int)
++ {static} int tamano()
+}
+enum ETipoArticulo {
++  NINGUNO
++  MONITOR
++  IMPRESORA
++  CPU
++  FAX
++  SCANNER
+- int[] espacios
++ int getEspacio()
++ {static} boolean existeTipo(String)
++ {static} String[] getArrayTipos()
+}
+enum EOrden {
++  DESCENDENTE
++  INDIFERENTE
++  ASCENDENTE
+- int orden
++ {static} EOrden desdeEntero(int)
++ {static} EOrden desdeString(String)
+}
+enum EMenuPrincipal {
++  M_PR_TERMINAR
++  M_PR_MOSTRAR_ARMARIO
++  M_PR_METER_ARTICULO
++  M_PR_CONSULTAR_ARTICULO
++  M_PR_CONSULTAR_CELDA
++  M_PR_LISTADOS
++  M_PR_GRABAR_ESTADO
++  M_PR_CARGAR_DATOS
++ {static} EMenuPrincipal desdeEntero(int)
++ {static} int tamano()
+}
+@enduml

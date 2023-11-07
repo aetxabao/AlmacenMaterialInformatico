@@ -1,0 +1,21 @@
+@startuml
+class io.CsvLoader {
++ {static} String SPLITTER
+- String csvPath
++ <<Create>> CsvLoader(String)
++ void load(Armario)
+}
+class io.CsvSaver {
++ {static} String FOLDER
++ {static} String PREFIX
++ {static} char SEPARATOR
++ {static} String EXTENSION
++ {static} char SPLITTER
++ {static} char EOL
++ String save(Armario)
+- String getFilePath()
++ {static} String encode(Armario)
+- {static} String transformLugarCeldaToCsv(String,Celda)
+- {static} String transformLugarArticuloToCsv(String,Articulo)
+}
+@enduml

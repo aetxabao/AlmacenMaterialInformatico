@@ -1,0 +1,57 @@
+@startuml
+class terminal.io.Entrada {
++ {static} int leerEntero(String,int,int)
++ {static} double leerDecimalPositivo(String)
++ {static} String leerString(String)
+}
+class terminal.io.Salida {
++ {static} void menuPrincipal()
++ {static} void menuListados()
++ {static} void mostrarOpciones(String[])
++ {static} void mostrarError(String)
++ {static} void mostrarMensaje(String)
++ {static} void mostrarArticulo(Articulo,String)
++ {static} void mostrarArticulosCelda(Articulo[],int)
++ {static} void tablaArmario(Armario)
+- {static} String getArticuloEnUnaLinea(Articulo)
++ {static} void mostrarArticulosTipo(Map<ETipoArticulo,List<Articulo>>)
++ {static} void mostrarTiposImportes(Map<ETipoArticulo,Double>)
++ {static} void main(String[])
+}
+class terminal.menus.MenuListados {
+- GestorAlmacen gestorAlmacen
++ <<Create>> MenuListados(GestorAlmacen)
++ void run()
+- void articulosPorTipoPrecio()
+- void articulosPorTipoFecha()
+- void importePorTipos()
+- Map<ETipoArticulo,Double> sumatorioPreciosPorTipo(Map<ETipoArticulo,List<Articulo>>)
++ {static} void main(String[])
+}
+class terminal.Main {
++ {static} void main(String[])
+}
+class terminal.menus.MenuPrincipal {
+- GestorAlmacen gestorAlmacen
++ <<Create>> MenuPrincipal(GestorAlmacen)
+- void cargaInicialDatos()
++ void run()
+- void mostrarArmario()
+- void meterArticulo()
+- void consultarArticulo()
+- void consultarCelda()
+- void menuListados()
+- void grabarEstado()
+- void cargarDatos()
++ {static} void main(String[])
+}
+
+terminal.Main ..> terminal.menus.MenuPrincipal
+terminal.menus.MenuPrincipal .right.>  terminal.menus.MenuListados
+
+terminal.menus.MenuPrincipal ..> terminal.io.Entrada
+terminal.menus.MenuPrincipal ..> terminal.io.Salida
+terminal.menus.MenuListados ..> terminal.io.Entrada
+terminal.menus.MenuListados ..> terminal.io.Salida
+
+@enduml

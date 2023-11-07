@@ -1,0 +1,51 @@
+@startuml
+class terminal.io.Entrada {
+}
+class terminal.Main {
+}
+class io.CsvSaver {
+}
+class model.Celda {
+}
+class terminal.menus.MenuPrincipal {
+}
+class exceptions.ExcepcionAmi {
+}
+class model.Articulo {
+}
+class model.Posicion {
+}
+class managers.GestorAlmacen {
+}
+class io.CsvLoader {
+}
+class Main {
+}
+class terminal.io.Salida {
+}
+class terminal.menus.MenuListados {
+}
+class model.Armario {}
+
+Main ..> terminal.Main
+terminal.Main ..> terminal.menus.MenuPrincipal
+terminal.menus.MenuPrincipal ..>  terminal.menus.MenuListados
+
+terminal.menus.MenuPrincipal --> managers.GestorAlmacen
+terminal.menus.MenuListados --> managers.GestorAlmacen
+terminal.menus.MenuPrincipal ..> terminal.io.Entrada
+terminal.menus.MenuPrincipal ..> terminal.io.Salida
+terminal.menus.MenuListados ..> terminal.io.Entrada
+terminal.menus.MenuListados ..> terminal.io.Salida
+
+managers.GestorAlmacen --> model.Armario
+managers.GestorAlmacen ..> io.CsvLoader
+managers.GestorAlmacen ..> io.CsvSaver
+io.CsvLoader ..> exceptions.ExcepcionAmi
+
+model.Celda *--> model.Articulo
+model.Armario *--> model.Celda
+model.Armario ..> model.Posicion
+model.Armario ..> model.Articulo
+
+@enduml

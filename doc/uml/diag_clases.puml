@@ -1,0 +1,195 @@
+@startuml
+class terminal.io.Entrada {
++ {static} int leerEntero(String,int,int)
++ {static} double leerDecimalPositivo(String)
++ {static} String leerString(String)
+}
+class terminal.Main {
++ {static} void main(String[])
+}
+class io.CsvSaver {
++ {static} String FOLDER
++ {static} String PREFIX
++ {static} char SEPARATOR
++ {static} String EXTENSION
++ {static} char SPLITTER
++ {static} char EOL
++ String save(Armario)
+- String getFilePath()
++ {static} String encode(Armario)
+- {static} String transformLugarCeldaToCsv(String,Celda)
+- {static} String transformLugarArticuloToCsv(String,Articulo)
+}
+class model.Celda {
+- int espacio
+- List<Articulo> lista
++ <<Create>> Celda(int)
++ List<Articulo> getLista()
++ void setLista(List<Articulo>)
++ void meter(Articulo)
++ int getEspacioLibre()
++ int getEspacioOcupado()
++ boolean estaArticulo(Articulo)
++ boolean existeIdArticulo(String)
++ Articulo getArticulo(String)
++ Iterator<Articulo> iterator()
+}
+class terminal.menus.MenuPrincipal {
+- GestorAlmacen gestorAlmacen
++ <<Create>> MenuPrincipal(GestorAlmacen)
+- void cargaInicialDatos()
++ void run()
+- void mostrarArmario()
+- void meterArticulo()
+- void consultarArticulo()
+- void consultarCelda()
+- void menuListados()
+- void grabarEstado()
+- void cargarDatos()
++ {static} void main(String[])
+}
+class exceptions.ExcepcionAmi {
+- String msg
++ <<Create>> ExcepcionAmi(String)
++ String toString()
+}
+class model.Articulo {
+- String id
+- ETipoArticulo tipo
+- int espacio
+- LocalDate fechaAdquisicion
+- double precio
++ <<Create>> Articulo()
++ <<Create>> Articulo(String)
++ <<Create>> Articulo(String,ETipoArticulo,int,LocalDate,double)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
++ String getId()
++ void setId(String)
++ ETipoArticulo getTipo()
++ void setTipo(ETipoArticulo)
++ int getEspacio()
++ void setEspacio(int)
++ LocalDate getFechaAdquisicion()
++ void setFechaAdquisicion(LocalDate)
++ double getPrecio()
++ void setPrecio(double)
+}
+class model.Posicion {
+- {static} String letras
+- char fila
+- int columna
++ <<Create>> Posicion()
++ <<Create>> Posicion(char,int)
++ <<Create>> Posicion(int,int)
++ <<Create>> Posicion(String)
++ char getFila()
++ int getFilaNumber()
++ void setFila(char)
++ void setFilaNumber(int)
++ void setFilaColumnaNumbers(int,int)
++ {static} String getLetras()
++ int getColumna()
++ void setColumna(int)
+- int filaToInt(char)
+- char filaToChar(int)
++ boolean equals(Object)
++ int hashCode()
++ String toString()
++ int compareTo(Posicion)
+}
+class managers.GestorAlmacen {
+- {static} int ESPACIOS_CELDA
+- Armario armario
++ <<Create>> GestorAlmacen()
++ Armario getArmario()
++ int getEspaciosCeldas()
++ int getFilas()
++ int getColumnas()
++ boolean meterArticulo(Articulo)
++ Posicion getPosicionArticulo(Articulo)
++ List<Articulo> getArticulos(int,int)
++ int getOcupacionCelda(Posicion)
++ boolean existeIdArticulo(String)
++ String saveCsv()
++ void loadCsv(String)
++ Articulo getArticulo(String)
++ Map<ETipoArticulo,List<Articulo>> articulosPorTipoPrecio(EOrden)
++ Map<ETipoArticulo,List<Articulo>> articulosPorTipoFecha(EOrden)
+}
+class io.CsvLoader {
++ {static} String SPLITTER
+- String csvPath
++ <<Create>> CsvLoader(String)
++ void load(Armario)
+}
+class Main {
++ {static} void main(String[])
+}
+class terminal.io.Salida {
++ {static} void menuPrincipal()
++ {static} void menuListados()
++ {static} void mostrarOpciones(String[])
++ {static} void mostrarError(String)
++ {static} void mostrarMensaje(String)
++ {static} void mostrarArticulo(Articulo,String)
++ {static} void mostrarArticulosCelda(Articulo[],int)
++ {static} void tablaArmario(Armario)
+- {static} String getArticuloEnUnaLinea(Articulo)
++ {static} void mostrarArticulosTipo(Map<ETipoArticulo,List<Articulo>>)
++ {static} void mostrarImporteTipos(Map<ETipoArticulo,Double>)
++ {static} void main(String[])
+}
+class terminal.menus.MenuListados {
+- GestorAlmacen gestorAlmacen
++ <<Create>> MenuListados(GestorAlmacen)
++ void run()
+- void articulosPorTipoPrecio()
+- void articulosPorTipoFecha()
+- void importePorTipos()
+- Map<ETipoArticulo,Double> sumatorioPreciosPorTipo(Map<ETipoArticulo,List<Articulo>>)
++ {static} void main(String[])
+}
+class model.Armario {
++ {static} int FILAS
++ {static} int COLUMNAS
++ {static} int ESPACIOS_X_CELDA
+- Celda[][] celdas
++ <<Create>> Armario()
++ int getFilas()
++ int getColumnas()
++ Celda getCelda(int,int)
++ int getEspacioLibre(Posicion)
++ void meter(Posicion,Articulo)
++ int getOcupacionCelda(Posicion)
++ List<Articulo> getArticulos(int,int)
++ Posicion buscarPosicionConEspacio(int)
++ Posicion getPosicionArticulo(Articulo)
++ boolean existeIdArticulo(String)
++ Articulo getArticulo(String)
++ Map<ETipoArticulo,List<Articulo>> articulosPorTipo(java.util.Comparator<Articulo>,EOrden)
+}
+
+Main ..> terminal.Main
+terminal.Main ..> terminal.menus.MenuPrincipal
+terminal.menus.MenuPrincipal ..>  terminal.menus.MenuListados
+
+terminal.menus.MenuPrincipal --> managers.GestorAlmacen
+terminal.menus.MenuListados --> managers.GestorAlmacen
+terminal.menus.MenuPrincipal ..> terminal.io.Entrada
+terminal.menus.MenuPrincipal ..> terminal.io.Salida
+terminal.menus.MenuListados ..> terminal.io.Entrada
+terminal.menus.MenuListados ..> terminal.io.Salida
+
+managers.GestorAlmacen --> model.Armario
+managers.GestorAlmacen ..> io.CsvLoader
+managers.GestorAlmacen ..> io.CsvSaver
+io.CsvLoader ..> exceptions.ExcepcionAmi
+
+model.Celda *--> model.Articulo
+model.Armario *--> model.Celda
+model.Armario ..> model.Posicion
+model.Armario ..> model.Articulo
+
+@enduml

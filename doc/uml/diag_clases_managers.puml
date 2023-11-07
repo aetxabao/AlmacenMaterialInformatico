@@ -1,0 +1,21 @@
+@startuml
+class managers.GestorAlmacen {
+- {static} int ESPACIOS_CELDA
+- Armario armario
++ <<Create>> GestorAlmacen()
++ Armario getArmario()
++ int getEspaciosCeldas()
++ int getFilas()
++ int getColumnas()
++ boolean meterArticulo(Articulo)
++ Posicion getPosicionArticulo(Articulo)
++ List<Articulo> getArticulos(int,int)
++ int getOcupacionCelda(Posicion)
++ boolean existeIdArticulo(String)
++ String saveCsv()
++ void loadCsv(String)
++ Articulo getArticulo(String)
++ Map<ETipoArticulo,List<Articulo>> articulosPorTipoPrecio(EOrden)
++ Map<ETipoArticulo,List<Articulo>> articulosPorTipoFecha(EOrden)
+}
+@enduml
